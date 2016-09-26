@@ -1,0 +1,25 @@
+nginx:
+    image: nginx
+    ports:
+        - "80:80"
+    volumes:
+        - {CHEMIN VERS LE DEPOT}/nginx/conf.d:/etc/nginx/conf.d
+        - {DOSSIER CONTENANT VOS PROJETS WEB SUR VOTRE MACHINE}:/usr/share/nginx/html
+    links:
+        - php:php
+php:
+    build: php
+    ports:
+        - "9000:9000"
+    volumes:
+        - {DOSSIER CONTENANT VOS PROJETS WEB SUR VOTRE MACHINE}:/usr/share/nginx/html
+    links:
+        - sql:sql
+sql:
+    image: mariadb
+    ports:
+        - "3306:3306"
+    volumes:
+        - {CHEMIN VERS UN DOSSIER DE VOTRE MACHINE POUR SAUVEGARDER LES DONNEES MYSQL}:/var/lib/mysql
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
